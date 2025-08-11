@@ -1,8 +1,17 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders header and allows first move by X', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  // Header is present
+  expect(screen.getByText(/Tic Tac Toe/i)).toBeInTheDocument();
+
+  // Reset button exists
+  expect(screen.getByRole('button', { name: /reset game/i })).toBeInTheDocument();
+
+  // First move should place X
+  const sq0 = screen.getByTestId('square-0');
+  fireEvent.click(sq0);
+  expect(sq0).toHaveTextContent('X');
 });
